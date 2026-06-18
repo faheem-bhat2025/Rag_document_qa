@@ -64,7 +64,7 @@ with st.sidebar:
                 st.error(f"Ingestion failed: {exc}")
 
 
-st.title("AWS Customer Agreement — Q&A")
+st.title("AWS Customer Agreement Q&A")
 st.caption("Ask questions about the AWS Customer Agreement, grounded in the document.")
 
 tab_chat, tab_analytics = st.tabs(["Chat", "Analytics"])
