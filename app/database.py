@@ -2,8 +2,9 @@ import sqlite3
 
 class Database:
     def __init__(self, DB_PATH):
+        """Initialise the database connection path and create the logs table if it does not exist."""
         self.DB_PATH = DB_PATH
-        """Create the logs table if it doesn't exist. Safe to call repeatedly."""
+        # A new connection is opened per call rather than kept open to avoid threading issues with SQLite
         conn = sqlite3.connect(self.DB_PATH)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS query_logs (
@@ -56,7 +57,7 @@ class Database:
         no_answer_queries = [dict(r) for r in cur.fetchall()]
 
         cur.execute("SELECT AVG(latency_ms) AS avg_latency_ms FROM query_logs")
-        avg_latency = cur.fetchone()["avg_latency_ms"] or 0.0
+        avg_latency = cur.fetchone()["avg_latency_ms"] or 0.0  # guard against None when the table is empty
 
         cur.execute("SELECT COUNT(*) AS total FROM query_logs")
         total = cur.fetchone()["total"]
