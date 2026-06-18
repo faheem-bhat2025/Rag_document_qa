@@ -5,7 +5,9 @@ import faiss
 from typing import List
 from dotenv import load_dotenv
 from groq import Groq
+
 load_dotenv()       
+
 from sentence_transformers import SentenceTransformer
 from config import *
 import json

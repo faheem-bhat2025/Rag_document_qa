@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from rag import Rag
 from database import Database
 from models import AskRequest, AskResponse, IngestResponse
-from config import DOCUMENT_PATH, SCORE_THRESHOLD, NO_ANSWER_PHRASE, DB_PATH
+from config import SCORE_THRESHOLD, NO_ANSWER_PHRASE, DB_PATH
 
 rag = Rag()
 database = Database(DB_PATH)
@@ -45,12 +45,12 @@ def ask(req: AskRequest):
     retrieved = rag.retrieve(req.query, k=req.k)
     top_score = retrieved[0]["score"] if retrieved else 0.0
 
-    # Layer 1: score threshold — short-circuit clearly out-of-scope queries
+    # Layer 1: score threshold short-circuit clearly out-of-scope queries
     if top_score < SCORE_THRESHOLD:
         answer, no_answer, sources = NO_ANSWER_PHRASE, True, []
     else:
         answer = rag.generate_answer(req.query, retrieved)
-        # Layer 2: prompt fallback — model said it couldn't find it
+        # Layer 2: prompt fallback model said it couldn't find it
         no_answer = NO_ANSWER_PHRASE.lower() in answer.lower()
         sources = [] if no_answer else retrieved
 
