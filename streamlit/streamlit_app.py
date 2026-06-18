@@ -1,24 +1,10 @@
-"""
-Streamlit frontend for the RAG Document Q&A system.
-
-Runs as a separate process from the FastAPI backend and talks to it purely
-over HTTP using the `requests` library. Provides:
-  1. A chat-style interface to ask questions and view answers with sources.
-  2. An analytics dashboard showing usage stats from the /analytics endpoint.
-
-Run (with the FastAPI backend already running on port 8000):
-    streamlit run streamlit_app.py
-"""
-
 import requests
 import pandas as pd
 import streamlit as st
 
-# Base URL of the FastAPI backend. Override in the sidebar if needed.
 DEFAULT_API_URL = "http://localhost:8000"
 
 st.set_page_config(page_title="AWS Agreement Q&A", page_icon="📄", layout="wide")
-
 
 
 # Helpers: thin wrappers around the FastAPI endpoints                          
@@ -70,8 +56,8 @@ st.caption("Ask questions about the AWS Customer Agreement, grounded in the docu
 tab_chat, tab_analytics = st.tabs(["Chat", "Analytics"])
 
 prompt = st.chat_input("Ask a question about the agreement...")
-# Tab 1: Chat interface                                                     
-
+                                                 
+# Tab 1: Chat interface
 with tab_chat:
     # Persist the conversation across reruns.
     if "messages" not in st.session_state:

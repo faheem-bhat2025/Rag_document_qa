@@ -100,7 +100,7 @@ Rag_document_qa/
 ├── data/
 │   └── AWS_Customer_Agreement.pdf
 ├── storage/             # generated artifacts (gitignored): index, chunks, db
-├── .env.example         # template for required environment variables
+├── .env         
 ├── .gitignore
 ├── requirements.txt
 └── README.md
@@ -135,13 +135,7 @@ pip install -r requirements.txt
 
 ### Step 3   Add your API key
 
-Copy the example env file and add your Groq key:
-
-```bash
-cp .env.example .env
-```
-
-Then edit `.env`:
+Edit the env file and add your Groq key:
 
 ```
 GROQ_API_KEY=your_groq_api_key_here
@@ -166,7 +160,7 @@ Build the vector index from the PDF (run once). Either click **Execute** on `POS
 curl -X POST http://localhost:8000/ingest
 ```
 
-This parses, chunks, embeds, and indexes the PDF, then saves the index and chunks to `storage/`. On subsequent server restarts the index is loaded from disk automatically   no re-ingestion needed.
+This parses, chunks, embeds, and indexes the PDF, then saves the index and chunks to `storage/`. On subsequent server restarts the index is loaded from disk automatically, no re-ingestion needed.
 
 ### Step 6   Start the frontend (Streamlit)
 
@@ -287,9 +281,9 @@ The `/analytics` endpoint exposes the following, each backed by a SQL query:
 
 ## 9. Demo
 
-A short demo video/GIF (2–3 minutes) showing the app running   asking a question, viewing the answer with sources, and the analytics dashboard   is available here:
+A short demo video/GIF (2–3 minutes) showing the app running asking a question, viewing the answer with sources, and the analytics dashboard   is available here:
 
-**[Demo link   add your video/GIF URL here]**
+**[Demo link: https://drive.google.com/file/d/1OKZUe-m9_URDRtgfbSKPbqKwCWqgXCEc/view?usp=sharing]**
 
 ---
 
