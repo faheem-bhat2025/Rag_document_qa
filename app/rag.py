@@ -1,5 +1,4 @@
 import os
-os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 import re
 import fitz
 import faiss

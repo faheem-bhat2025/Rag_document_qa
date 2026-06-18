@@ -45,13 +45,13 @@ def fetch_analytics(api_url: str) -> dict:
 
 # Sidebar: configuration and document ingestion                               
 with st.sidebar:
-    st.header("⚙️ Settings")
+    st.header("Settings")
     api_url = st.text_input("Backend API URL", value=DEFAULT_API_URL).rstrip("/")
     top_k = st.slider("Chunks to retrieve (top-k)", min_value=1, max_value=10, value=4)
 
     st.divider()
     st.caption("Run this once before asking questions:")
-    if st.button("📥 Ingest document", use_container_width=True):
+    if st.button("Ingest document", use_container_width=True):
         with st.spinner("Parsing, chunking, and embedding the PDF..."):
             try:
                 result = ingest_document(api_url)
@@ -64,12 +64,12 @@ with st.sidebar:
                 st.error(f"Ingestion failed: {exc}")
 
 
-st.title("📄 AWS Customer Agreement — Q&A")
+st.title("AWS Customer Agreement — Q&A")
 st.caption("Ask questions about the AWS Customer Agreement, grounded in the document.")
 
-tab_chat, tab_analytics = st.tabs(["💬 Chat", "📊 Analytics"])
+tab_chat, tab_analytics = st.tabs(["Chat", "Analytics"])
 
-
+prompt = st.chat_input("Ask a question about the agreement...")
 # Tab 1: Chat interface                                                     
 
 with tab_chat:
@@ -83,7 +83,7 @@ with tab_chat:
             st.markdown(msg["content"])
             # For assistant messages, show the sources that backed the answer.
             if msg["role"] == "assistant" and msg.get("sources"):
-                with st.expander("📑 Sources"):
+                with st.expander("Sources"):
                     for i, src in enumerate(msg["sources"], start=1):
                         st.markdown(
                             f"**Source {i}** (score: {src['score']:.3f})\n\n"
@@ -91,9 +91,9 @@ with tab_chat:
                         )
 
     # New user input.
-    if prompt := st.chat_input("Ask a question about the agreement..."):
-        # Show and store the user's message.
+    if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
+        # Show and store the user's message.
         with st.chat_message("user"):
             st.markdown(prompt)
 
@@ -110,13 +110,13 @@ with tab_chat:
                     if data.get("no_answer"):
                         st.info("No answer was found in the document for this query.")
                     if sources:
-                        with st.expander("📑 Sources"):
+                        with st.expander("Sources"):
                             for i, src in enumerate(sources, start=1):
                                 st.markdown(
                                     f"**Source {i}** (score: {src['score']:.3f})\n\n"
                                     f"> {src['text']}"
                                 )
-                    st.caption(f"⏱️ {latency:.0f} ms")
+                    st.caption(f"{latency:.0f} ms")
 
                     # Store the assistant turn (with sources) in history.
                     st.session_state.messages.append(
@@ -143,7 +143,7 @@ with tab_analytics:
     st.subheader("Usage Analytics")
     st.caption("Computed from the SQL logs of every /ask call.")
 
-    if st.button("🔄 Refresh analytics", use_container_width=False):
+    if st.button("Refresh analytics", use_container_width=False):
         st.session_state.pop("analytics", None)  # force a refetch
 
     # Fetch (and cache in session) the analytics data.
