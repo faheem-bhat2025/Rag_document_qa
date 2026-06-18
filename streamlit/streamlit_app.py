@@ -4,7 +4,7 @@ import streamlit as st
 
 DEFAULT_API_URL = "http://localhost:8000"
 
-st.set_page_config(page_title="AWS Agreement Q&A", page_icon="📄", layout="wide")
+st.set_page_config(page_title="AWS Agreement Q&A", layout="wide")
 
 
 # Helpers: thin wrappers around the FastAPI endpoints                          
